@@ -1,0 +1,23 @@
+version: '3.0'
+services:
+  ca-client-register-peer:
+    image: hyperledger/fabric-ca:1.5
+    volumes:
+      - ${BASE_DIR}/${OUT_DIR}/organizations/tls-ca/${TLS_ORG_NAME}:/root/tls-org
+      - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/nodes/${NODE_NAME}/tls/msp:/root/msp
+      - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/nodes/${NODE_NAME}/tls/config/:/etc/hyperledger/fabric-ca-server/
+      - ${BASE_DIR}/scripts:/root/scripts
+    working_dir: /root
+    command: scripts/register-node-tls.sh
+    networks:
+      - fabric-ca
+    environment:
+      - NODE_NAME=${NODE_NAME}
+      - NODE_PASSWORD=${NODE_PASSWORD}
+      - TLS_CA_HOST=${TLS_CA_HOST}
+      - TLS_CA_PORT=${TLS_CA_PORT}
+      - TLS_ORG_PATH=/root/tls-org/
+      - TLS_ADMIN_USERNAME=${TLS_ADMIN_USERNAME}
+
+networks:
+  fabric-ca:

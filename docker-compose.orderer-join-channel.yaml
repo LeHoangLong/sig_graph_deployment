@@ -1,0 +1,23 @@
+version: '3.0'
+services:
+  orderer-join-channel:
+    image: hyperledger/fabric-tools
+    command: ./scripts/orderer-join-channel.sh
+    #command: sleep infinity
+    working_dir: /root
+    networks:
+      - fabric-ca
+    volumes:
+      #- ${BASE_DIR}/${OUT_DIR}/${ROOT_TLS_CERT}:/etc/hyperledger/fabric/tls/ca.crt
+      - ${BASE_DIR}/${OUT_DIR}/channels/sig-graph/genesis_block.pb:/etc/hyperledger/fabric/genesis.pb
+      - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/nodes/${NODE_NAME}/tls/msp/cacerts/root-tls-ca-7054.pem:/etc/hyperledger/fabric/tls/ca.crt
+      - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/nodes/${NODE_NAME}/tls/msp/signcerts/cert.pem:/etc/hyperledger/fabric/tls/server.crt
+      - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/nodes/${NODE_NAME}/tls/msp/keystore/key.pem:/etc/hyperledger/fabric/tls/server.key
+      - ${BASE_DIR}/config/config.yaml:/etc/hyperledger/fabric/msp/config.yaml
+      - ${BASE_DIR}/scripts:/root/scripts
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_ADDRESS=${NODE_HOST}
+
+networks:
+  fabric-ca:

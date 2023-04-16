@@ -1,0 +1,21 @@
+version: '3.0'
+services:
+  ca-client-enroll-tls-admin:
+    image: hyperledger/fabric-ca:1.5
+    volumes:
+      - ${BASE_DIR}/${OUT_DIR}/${ROOT_TLS_CERT}:/root/tls/root-tls-ca.pem
+      - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/users/${USERNAME}/msp:/root/msp
+      - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/users/${USERNAME}/config/:/etc/hyperledger/fabric-ca-server/
+      - ${BASE_DIR}/scripts:/root/scripts
+    working_dir: /root
+    command: scripts/enroll-user.sh
+    networks:
+      - fabric-ca
+    environment:
+      - OUT_DIR=${OUT_DIR}
+      - ORG_CA_HOST=${ORG_CA_HOST}
+      - ORG_CA_PORT=${ORG_CA_PORT}
+      - USERNAME=${USERNAME}
+      - PASSWORD=${PASSWORD}
+networks:
+  fabric-ca:

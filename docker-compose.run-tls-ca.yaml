@@ -1,0 +1,20 @@
+version: '3.0'
+services:
+  tls-ca:
+    image: hyperledger/fabric-ca:1.5
+    volumes:
+      - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}:/root/tls
+      - ${BASE_DIR}/scripts:/root/scripts
+    command: scripts/run-tls-ca.sh
+    working_dir: /root
+    environment:
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - CA_PORT=${CA_PORT}
+      - CA_NAME=${ORG_NAME}
+      - CSR_HOSTS=${CSR_HOSTS}
+    hostname: ${CSR_HOSTS}
+    networks:
+      - fabric-ca
+networks:
+  fabric-ca:

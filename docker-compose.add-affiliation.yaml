@@ -1,0 +1,18 @@
+version: '3.0'
+services:
+  add-affiliation:
+    image: hyperledger/fabric-ca:1.5
+    volumes:
+      - ${BASE_DIR}/${OUT_DIR}/${ROOT_TLS_CERT}:/root/tls/root-tls-ca.pem
+      - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/users/${ORG_CA_ADMIN_USERNAME}/msp:/root/msp
+      - ${BASE_DIR}/scripts:/root/scripts
+    command: scripts/add-affiliation.sh
+    working_dir: /root
+    environment:
+      - AFFILIATION=${AFFILIATION}
+      - ORG_CA_URL=https://${ORG_CA_HOST}:${ORG_CA_PORT}
+    networks:
+      - fabric-ca
+
+networks:
+  fabric-ca:

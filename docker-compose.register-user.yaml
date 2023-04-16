@@ -1,0 +1,26 @@
+version: '3.0'
+services:
+  register-user:
+    image: hyperledger/fabric-ca:1.5
+    volumes:
+      - ${BASE_DIR}/${OUT_DIR}/${ROOT_TLS_CERT}:/root/tls/root-tls-ca.pem
+      - ${BASE_DIR}/${OUT_DIR}/${ORG_NAME}/users/${ADMIN_USERNAME}/msp:/root/msp
+      - ${BASE_DIR}/${OUT_DIR}/${ORG_NAME}/users/${USERNAME}/config/:/etc/hyperledger/fabric-ca-server/
+      - ${BASE_DIR}/scripts:/root/scripts
+    working_dir: /root
+    command: scripts/register-user.sh
+    networks:
+      - fabric-ca
+    environment:
+      - CA_CERT_PATH=/root/fabric-ca-client/tls-root-cert/tls-ca-cert.pem
+      - USERNAME=${USERNAME}
+      - USER_AFFILIATION=${USER_AFFILIATION}
+      - USER_ATTRIBUTES=${USER_ATTRIBUTES}
+      - USER_TYPE=${USER_TYPE}
+      - PASSWORD=${PASSWORD}
+      - ORG_CA_URL=${ORG_CA_HOST}:${ORG_CA_PORT}
+      
+      
+
+networks:
+  fabric-ca:

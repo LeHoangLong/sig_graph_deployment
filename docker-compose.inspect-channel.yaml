@@ -1,0 +1,33 @@
+version: '3.0'
+services:
+  init-channel:
+    image: hyperledger/fabric-tools:2.4
+    volumes:
+      - ${BASE_DIR}/${OUT_DIR}/organizations/orderer/orderer-org-1/nodes/orderer-org-1-orderer-1/msp:/etc/hyperledger/fabric-ca-server/orderer-org-1-orderer-1/msp
+      - ${BASE_DIR}/${OUT_DIR}/organizations/orderer/orderer-org-1/nodes/orderer-org-1-org-ca/msp/ca-cert.pem:/etc/hyperledger/fabric-ca-server/orderer-org-1-org-ca/msp/cacerts/cert.pem
+      - ${BASE_DIR}/${OUT_DIR}/organizations/orderer/orderer-org-1/nodes/orderer-org-1-org-ca/tls/cacerts/root-tls-ca-7054.pem:/etc/hyperledger/fabric-ca-server/orderer-org-1-org-ca/msp/tlsca/cert.pem
+      - ${BASE_DIR}/config/config.yaml:/etc/hyperledger/fabric-ca-server/orderer-org-1-org-ca/msp/tlsca/config.yaml
+      - ${BASE_DIR}/config/config.yaml:/etc/hyperledger/fabric-ca-server/orderer-org-1-orderer-1/msp/tlsca/config.yaml
+
+      - ${BASE_DIR}/${OUT_DIR}/organizations/orderer/orderer-org-2/nodes/orderer-org-2-orderer-1/msp:/etc/hyperledger/fabric-ca-server/orderer-org-2-orderer-1/msp
+      - ${BASE_DIR}/${OUT_DIR}/organizations/orderer/orderer-org-2/nodes/orderer-org-2-org-ca/msp/ca-cert.pem:/etc/hyperledger/fabric-ca-server/orderer-org-2-org-ca/msp/cacerts/cert.pem
+      - ${BASE_DIR}/${OUT_DIR}/organizations/orderer/orderer-org-2/nodes/orderer-org-2-org-ca/tls/cacerts/root-tls-ca-7054.pem:/etc/hyperledger/fabric-ca-server/orderer-org-2-org-ca/msp/tlsca/cert.pem
+      - ${BASE_DIR}/config/config.yaml:/etc/hyperledger/fabric-ca-server/orderer-org-2-org-ca/msp/tlsca/config.yaml
+
+      - ${BASE_DIR}/${OUT_DIR}/organizations/peer/peer-org-1/nodes/peer-org-1-peer-1/msp:/etc/hyperledger/fabric-ca-server/peer-org-1-orderer-1/msp
+      - ${BASE_DIR}/${OUT_DIR}/organizations/peer/peer-org-1/nodes/peer-org-1-org-ca/msp/ca-cert.pem:/etc/hyperledger/fabric-ca-server/peer-org-1-org-ca/msp/cacerts/cert.pem
+      - ${BASE_DIR}/${OUT_DIR}/organizations/peer/peer-org-1/nodes/peer-org-1-org-ca/tls/cacerts/root-tls-ca-7054.pem:/etc/hyperledger/fabric-ca-server/peer-org-1-org-ca/msp/tlsca/cert.pem
+      - ${BASE_DIR}/config/config.yaml:/etc/hyperledger/fabric-ca-server/peer-org-1-org-ca/msp/tlsca/config.yaml
+
+      - ${BASE_DIR}/config/configtx.yaml:/etc/hyperledger/fabric-ca-server/configtx.yaml
+      - ${BASE_DIR}/${OUT_DIR}/channels/sig-graph:/root/output
+      - ${BASE_DIR}/scripts:/root/scripts
+    working_dir: /root
+    #command: configtxgen -profile sig-graph -outputBlock output/genesis_block.pb -channelID sig-graph
+    command: configtxgen -inspectBlock output/genesis_block.pb
+    networks:
+      - fabric-ca
+    environment:
+      - FABRIC_CFG_PATH=/etc/hyperledger/fabric-ca-server/
+networks:
+  fabric-ca:

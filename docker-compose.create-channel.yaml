@@ -1,0 +1,11 @@
+version: '3.0'
+services:
+  add-affiliation:
+    image: hyperledger/fabric-tools:2.4
+    command: sleep infinity
+    working_dir: /root
+    networks:
+      - fabric-ca
+
+networks:
+  fabric-ca:

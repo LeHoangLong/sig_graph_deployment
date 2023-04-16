@@ -1,0 +1,20 @@
+version: '3.0'
+services:
+  org-ca-${ORG_NAME}:
+    image: hyperledger/fabric-ca:1.5
+    volumes:
+      - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/nodes/${NODE_NAME}/tls:/root/tls
+      - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/nodes/${NODE_NAME}/msp/:/etc/hyperledger/fabric-ca-server/
+      - ${BASE_DIR}/scripts:/root/scripts
+    command: scripts/run-org-ca.sh
+    hostname: ${NODE_HOST}
+    working_dir: /root
+    environment:
+      - ADMIN_USERNAME=${USERNAME}
+      - ADMIN_PASSWORD=${PASSWORD}
+      - CA_PORT=${NODE_PORT}
+      - CA_NAME=${ORG_NAME}:${NODE_NAME}
+    networks:
+      - fabric-ca
+networks:
+  fabric-ca:
