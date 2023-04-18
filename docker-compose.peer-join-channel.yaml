@@ -1,15 +1,14 @@
 version: '3.0'
 services:
-  peer-fetch-genesis-block:
+  peer-join-channel:
     image: hyperledger/fabric-peer
-    command: ./scripts/peer-fetch-genesis-block.sh
+    command: ./scripts/peer-join-channel.sh
     working_dir: /root
-    hostname: ${NODE_HOST}
     networks:
       - fabric-ca
     volumes:
       - ${BASE_DIR}/${OUT_DIR}/${ROOT_TLS_CERT}:/etc/hyperledger/fabric/tls/ca.crt
-      - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/nodes/${NODE_NAME}/msp:/etc/hyperledger/fabric/msp
+      - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/users/${ORG_CA_ADMIN_USERNAME}/msp:/etc/hyperledger/fabric/msp
       - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/nodes/${NODE_NAME}/channels/sig-graph:/etc/hyperledger/fabric/channels/
       - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/nodes/${NODE_NAME}/tls/msp/signcerts/cert.pem:/etc/hyperledger/fabric/tls/server.crt
       - ${BASE_DIR}/${OUT_DIR}/organizations/${ORG_TYPE}/${ORG_NAME}/nodes/${NODE_NAME}/tls/msp/keystore/key.pem:/etc/hyperledger/fabric/tls/server.key
@@ -38,6 +37,7 @@ services:
       - CORE_OPERATIONS_LISTENADDRESS=${NODE_HOST}:9444
       - CORE_METRICS_PROVIDER=prometheus
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+
 
 networks:
   fabric-ca:

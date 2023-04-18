@@ -1,5 +1,4 @@
 #!/bin/sh
-echo $USER_AFFILIATION
 fabric-ca-client register --id.name ${USERNAME}\
     --id.affiliation ${USER_AFFILIATION}\
     --id.attrs ${USER_ATTRIBUTES}\
