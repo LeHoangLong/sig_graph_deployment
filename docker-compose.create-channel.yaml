@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   add-affiliation:
-    image: hyperledger/fabric-tools:2.4
+    image: hyperledger/fabric-tools:2.5.0
     command: sleep infinity
     working_dir: /root
     networks:

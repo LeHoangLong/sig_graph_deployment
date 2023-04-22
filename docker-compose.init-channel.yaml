@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   init-channel:
-    image: hyperledger/fabric-tools:2.4
+    image: hyperledger/fabric-tools:2.5.0
     volumes:
       - ${BASE_DIR}/${OUT_DIR}/organizations/orderer/orderer-org-1/nodes/orderer-org-1-orderer-1/msp:/etc/hyperledger/fabric-ca-server/orderer-org-1-orderer-1/msp
       - ${BASE_DIR}/${OUT_DIR}/organizations/orderer/orderer-org-1/nodes/orderer-org-1-org-ca/msp/ca-cert.pem:/etc/hyperledger/fabric-ca-server/orderer-org-1-org-ca/msp/cacerts/cert.pem

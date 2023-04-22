@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   orderer-join-channel:
-    image: hyperledger/fabric-tools
+    image: hyperledger/fabric-tools:2.5.0
     command: ./scripts/orderer-join-channel.sh
     #command: sleep infinity
     working_dir: /root
