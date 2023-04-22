@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   orderer-${ORG_NAME}-${NODE_NAME}:
-    image: hyperledger/fabric-orderer
+    image: hyperledger/fabric-orderer:2.5.0
     command:  orderer start
     #command: ls /etc/hyperledger/fabric/msp
     working_dir: /root

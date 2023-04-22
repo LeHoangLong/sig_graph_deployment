@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   peer:
-    image: hyperledger/fabric-peer
+    image: hyperledger/fabric-peer:2.5.0
     command: peer node start
     working_dir: /root
     hostname: ${NODE_HOST}
@@ -34,6 +34,7 @@ services:
       - CORE_OPERATIONS_LISTENADDRESS=${NODE_HOST}:9444
       - CORE_METRICS_PROVIDER=prometheus
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+      - FABRIC_CFG_PATH=/etc/hyperledger/fabric
 
 
 networks:
